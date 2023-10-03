@@ -1,0 +1,4 @@
+coreapi==2.3.3
+django-cors-headers==4.2.0
+djangorestframework==3.14.0
+pip-chill==1.0.3
