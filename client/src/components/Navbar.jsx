@@ -2,7 +2,7 @@ import { Outlet, Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import NavbarBootstrap from "react-bootstrap/Navbar";
-import Logo from "../images/papaya.svg";
+import Logo from "../images/QSP_1.svg";
 
 export function Navbar() {
   return (
@@ -23,7 +23,7 @@ export function Navbar() {
               className="d-inline-block align-top"
               alt="Logo"
             />{" "}
-            BANCO PAPAYA
+            Query Scanner Pro
           </NavbarBootstrap.Brand>
           <NavbarBootstrap.Toggle aria-controls="basic-navbar-nav" />
           <NavbarBootstrap.Collapse id="basic-navbar-nav">
@@ -31,20 +31,13 @@ export function Navbar() {
               <Nav.Link as={Link} to="/">
                 Inicio
               </Nav.Link>
-              <Nav.Link as={Link} to="/login">
-                Inicio de Sesion
-              </Nav.Link>
-              <Nav.Link as={Link} to="/register">
-                Registrarse
-              </Nav.Link>
-              <Nav.Link as={Link} to="/profile">
-                Perfil
+              <Nav.Link as={Link} to="/recent_document">
+                Documentos recientes
               </Nav.Link>
             </Nav>
           </NavbarBootstrap.Collapse>
         </Container>
       </NavbarBootstrap>
-
       <section>
         <Outlet />
       </section>

@@ -1,64 +1,106 @@
-import React from "react";
+import { useState } from "react";
 import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
-import Carousel from "react-bootstrap/Carousel";
 import Image from "react-bootstrap/Image";
-import PapayaLogo from "../images/papaya.svg";
-import CarouselImage1 from "../images/carrusel_1.png";
-import CarouselImage2 from "../images/carrusel_2.png";
-import CarouselImage3 from "../images/carrusel_3.png";
+import QSPLogo from "../images/QSP_0.svg";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Table from "react-bootstrap/Table";
 
 export const Home = () => {
+  const [archivo, setArchivo] = useState(null);
+  const [nombre, setNombre] = useState("");
+
+  const handleArchivoChange = (event) => {
+    // Manejar el cambio del archivo aquí
+    const archivoSeleccionado = event.target.files[0];
+    setArchivo(archivoSeleccionado);
+  };
+
+  const handleNombreChange = (event) => {
+    // Manejar el cambio del nombre aquí
+    const nuevoNombre = event.target.value;
+    setNombre(nuevoNombre);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Aquí puedes enviar los datos del formulario al servidor o realizar otras acciones
+    console.log("Archivo seleccionado:", archivo);
+    console.log("Nombre:", nombre);
+  };
+
+  const consultas = [
+    { id: 1, nombre: "Consulta 1" },
+    { id: 2, nombre: "Consulta 2" },
+    { id: 3, nombre: "Consulta 3" },
+  ];
+
+  // Función para descargar el resultado
+  const handleDescargar = () => {
+    // Aquí puedes agregar la lógica para descargar el resultado
+    alert("Descargando el resultado...");
+  };
+
   return (
     <Container>
       <div className="text-center my-5">
-        <Image src={PapayaLogo} width="150" height="150" />
-        <h1>Bienvenidos a Banco Papaya</h1>
-        <p>Donde tus finanzas crecen tan saludables como una papaya.</p>
+        <Image src={QSPLogo} width="150" height="150" />
+        <h1>Bienvenidos a Query Scanner Pro</h1>
+        <p>Descubre tus datos con precisión y rapidez.</p>
+
+        <h3 style={{ marginTop: 80 }}>Ingrese el archivo a procesar</h3>
+        <div className="d-flex justify-content-center align-items-center ">
+          <Form bg="dark" onSubmit={handleSubmit} style={{ marginTop: 40 }}>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Control type="file" onChange={handleArchivoChange} />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Nombre del usuario:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Escribe tu nombre"
+                value={nombre}
+                onChange={handleNombreChange}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Enviar
+            </Button>
+          </Form>
+        </div>
+        <div
+          className="d-flex justify-content-center align-items-center "
+          style={{ marginTop: 100 }}
+        >
+          <Form>
+            <p>
+              Luego de procesar su archivo contiene {consultas.length} consultas
+              y estas son las tablas que usa:
+            </p>
+            <Table striped bordered>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre de la Tabla</th>
+                </tr>
+              </thead>
+              <tbody>
+                {consultas.map((consulta) => (
+                  <tr key={consulta.id}>
+                    <td>{consulta.id}</td>
+                    <td>{consulta.nombre}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <p>¿Desea descargar el resultado?</p>
+            <Button variant="primary" onClick={handleDescargar}>
+              Pulse aquí para descargar
+            </Button>
+          </Form>
+        </div>
       </div>
-
-      <Carousel fade>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={CarouselImage1}
-            alt="First slide"
-          />
-          <Carousel.Caption>
-            <h3>Nuestras tarjetas de crédito</h3>
-            <p>Beneficios y recompensas que te encantarán.</p>
-            <Button variant="primary">Descubre más</Button>
-          </Carousel.Caption>
-        </Carousel.Item>
-
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={CarouselImage2}
-            alt="First slide"
-          />
-
-          <Carousel.Caption>
-            <h3>Ahorro y depósito</h3>
-            <p>Los mejores intereses en tus ahorros y depósitos.</p>
-            <Button variant="primary">Descubre más</Button>
-          </Carousel.Caption>
-        </Carousel.Item>
-
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={CarouselImage3}
-            alt="First slide"
-          />
-
-          <Carousel.Caption>
-            <h3>Nuestros préstamos</h3>
-            <p>Soluciones de préstamo para cada necesidad.</p>
-            <Button variant="primary">Descubre más</Button>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
     </Container>
   );
 };

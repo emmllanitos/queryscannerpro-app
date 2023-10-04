@@ -8,5 +8,5 @@ router.register(r'QueryFileRouter', views.QueryFileView, 'QueryFile')
 
 urlpatterns = [
     path("api/v1/", include(router.urls)),
-    path('docs/', include_docs_urls(title="Query Scanner Pro API"))
+    path('docs/', include_docs_urls(title="Query Scanner Pro API", description="Documentacion de la aplicacion Query Scanner Pro"))
 ]

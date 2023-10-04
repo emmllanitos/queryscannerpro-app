@@ -17,30 +17,23 @@ export function Footer() {
       <Container>
         <Row>
           <Col md={6}>
-            <h5>Banco Papaya</h5>
-            <p>Donde tus finanzas crecen tan saludables como una papaya.</p>
+            <h5>Query Scanner Pro</h5>
+            <p>Descubre tus datos con precisión y rapidez.</p>
           </Col>
           <Col md={3}>
             <h5>Enlaces</h5>
             <ul style={{ listStyle: "none", paddingLeft: "0" }}>
               <li>
-                <a href="/#" style={{ color: "#fff" }}>
+                <a href="/" style={{ color: "#fff", textDecoration: "none" }}>
                   Inicio
                 </a>
               </li>
               <li>
-                <a href="/#" style={{ color: "#fff" }}>
-                  Acerca de nosotros
-                </a>
-              </li>
-              <li>
-                <a href="/#" style={{ color: "#fff" }}>
-                  Servicios
-                </a>
-              </li>
-              <li>
-                <a href="/#" style={{ color: "#fff" }}>
-                  Contacto
+                <a
+                  href="/recent_document"
+                  style={{ color: "#fff", textDecoration: "none" }}
+                >
+                  Documentos recientes
                 </a>
               </li>
             </ul>
@@ -49,13 +42,13 @@ export function Footer() {
             <h5>Contacto</h5>
             <p>Evergreen Terrace 742 en Springfield</p>
             <p>3203044256</p>
-            <p>info@bancopapaya.com</p>
+            <p>info@queryscannerpro.com</p>
           </Col>
         </Row>
         <Row>
           <Col md={12}>
             <p className="text-center" style={{ marginTop: "20px" }}>
-              © {year} Banco Papaya. Todos los derechos reservados.
+              © {year} Query Scanner Pro. Todos los derechos reservados.
             </p>
           </Col>
         </Row>
