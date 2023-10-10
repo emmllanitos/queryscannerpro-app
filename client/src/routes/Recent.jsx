@@ -7,13 +7,20 @@ import Container from "react-bootstrap/Container";
 export const Recent = () => {
   const consultas = [
     {
-      id: "sql_pastelesPeterPan.txt",
+      id: 1,
+      filename: "sql_pastelesPeterPan.txt",
       nombre: "03/10/2023",
       usuario: "emmllanitos",
     },
-    { id: "sql_Comfamiliar.txt", nombre: "20/09/2023", usuario: "emmllanitos" },
     {
-      id: "consultas_sql_fet.txt",
+      id: 2,
+      filename: "sql_Comfamiliar.txt",
+      nombre: "20/09/2023",
+      usuario: "emmllanitos",
+    },
+    {
+      id: 3,
+      filename: "consultas_sql_fet.txt",
       nombre: "013/10/2023",
       usuario: "emmllanitos",
     },
@@ -37,6 +44,7 @@ export const Recent = () => {
             <Table striped bordered>
               <thead>
                 <tr>
+                  <th>Id</th>
                   <th>Nombre archivo</th>
                   <th>Usuario</th>
                   <th>Fecha creacion</th>
@@ -47,6 +55,7 @@ export const Recent = () => {
                 {consultas.map((consulta) => (
                   <tr key={consulta.id}>
                     <td>{consulta.id}</td>
+                    <td>{consulta.filename}</td>
                     <td>{consulta.usuario}</td>
                     <td>{consulta.nombre}</td>
                     <td>
