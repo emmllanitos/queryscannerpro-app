@@ -30,9 +30,18 @@ export const Home = () => {
   };
 
   const consultas = [
-    { id: 1, nombre: "Consulta 1" },
-    { id: 2, nombre: "Consulta 2" },
-    { id: 3, nombre: "Consulta 3" },
+    { id: 1, consulta: "Select 1 from dual;", tablas: "dual" },
+    {
+      id: 2,
+      consulta: "Select * from mcuentas.cta_cuenta;",
+      tablas: "mcuentas.cta_cuenta",
+    },
+    {
+      id: 3,
+      consulta:
+        "select s.*, m.* from mcuentas.cta_cuenta cc inner join mcuentas.cta_afiliado ca on cc.id = ca.id;",
+      tablas: "mcuentas.cta_cuenta, mcuentas.cta_afiliado",
+    },
   ];
 
   // Función para descargar el resultado
@@ -59,7 +68,7 @@ export const Home = () => {
               <Form.Label>Nombre del usuario:</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Escribe tu nombre"
+                placeholder="Escribe tu Usuario"
                 value={nombre}
                 onChange={handleNombreChange}
               />
@@ -81,15 +90,17 @@ export const Home = () => {
             <Table striped bordered>
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Nombre de la Tabla</th>
+                  <th>Id</th>
+                  <th>Consulta</th>
+                  <th>Tablas utilizadas</th>
                 </tr>
               </thead>
               <tbody>
                 {consultas.map((consulta) => (
                   <tr key={consulta.id}>
                     <td>{consulta.id}</td>
-                    <td>{consulta.nombre}</td>
+                    <td>{consulta.consulta}</td>
+                    <td>{consulta.tablas}</td>
                   </tr>
                 ))}
               </tbody>

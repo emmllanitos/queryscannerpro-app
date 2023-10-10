@@ -6,9 +6,17 @@ import Container from "react-bootstrap/Container";
 
 export const Recent = () => {
   const consultas = [
-    { id: "sql_pastelesPeterPan.txt", nombre: "03/10/2023" },
-    { id: "sql_Comfamiliar.txt", nombre: "20/09/2023" },
-    { id: "consultas_sql_fet.txt", nombre: "013/10/2023" },
+    {
+      id: "sql_pastelesPeterPan.txt",
+      nombre: "03/10/2023",
+      usuario: "emmllanitos",
+    },
+    { id: "sql_Comfamiliar.txt", nombre: "20/09/2023", usuario: "emmllanitos" },
+    {
+      id: "consultas_sql_fet.txt",
+      nombre: "013/10/2023",
+      usuario: "emmllanitos",
+    },
   ];
 
   // Función para descargar el resultado
@@ -30,6 +38,7 @@ export const Recent = () => {
               <thead>
                 <tr>
                   <th>Nombre archivo</th>
+                  <th>Usuario</th>
                   <th>Fecha creacion</th>
                   <th>Ver</th>
                 </tr>
@@ -38,6 +47,7 @@ export const Recent = () => {
                 {consultas.map((consulta) => (
                   <tr key={consulta.id}>
                     <td>{consulta.id}</td>
+                    <td>{consulta.usuario}</td>
                     <td>{consulta.nombre}</td>
                     <td>
                       <Button variant="secondary" onClick={handleDescargar}>
