@@ -29,20 +29,41 @@ export const Home = () => {
     console.log("Nombre:", nombre);
   };
 
-  const consultas = [
-    { id: 1, consulta: "Select 1 from dual;", tablas: "dual" },
-    {
-      id: 2,
-      consulta: "Select * from mcuentas.cta_cuenta;",
-      tablas: "mcuentas.cta_cuenta",
+  const jsonData = {
+    id: 1,
+    filename: "export_qa_super.dsx",
+    result: {
+      table: [
+        {
+          id: 1,
+          query: "SELECT * FROM users",
+          tables: "users",
+        },
+        {
+          id: 2,
+          query: "SELECT * FROM products",
+          tables: "products",
+        },
+        {
+          id: 3,
+          query: "SELECT * FROM orders",
+          tables: "orders",
+        },
+      ],
     },
-    {
-      id: 3,
-      consulta:
-        "select s.*, m.* from mcuentas.cta_cuenta cc inner join mcuentas.cta_afiliado ca on cc.id = ca.id;",
-      tablas: "mcuentas.cta_cuenta, mcuentas.cta_afiliado",
-    },
-  ];
+    user: "emmllanitos",
+    date: "2023-10-10T18:42:57.261461-05:00",
+  };
+
+  const tablesData = jsonData.result.table;
+
+  /*const result = fetch('http://127.0.0.1:8080/queryfile/api/v1/QueryFileRouter/1/', {
+    method: "GET",
+  });
+*/
+  //const data = result.json();
+
+  //console.log(result);
 
   // Función para descargar el resultado
   const handleDescargar = () => {
@@ -84,9 +105,10 @@ export const Home = () => {
         >
           <Form>
             <p>
-              Luego de procesar su archivo contiene {consultas.length} consultas
-              y estas son las tablas que usa:
+              Luego de procesar su archivo contiene {tablesData.length}{" "}
+              consultas y estas son las tablas que usa:
             </p>
+            {/*
             <Table striped bordered>
               <thead>
                 <tr>
@@ -101,6 +123,25 @@ export const Home = () => {
                     <td>{consulta.id}</td>
                     <td>{consulta.consulta}</td>
                     <td>{consulta.tablas}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            */}
+            <Table striped bordered>
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Consulta</th>
+                  <th>Tablas utilizadas</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tablesData.map((salida) => (
+                  <tr key={salida.id}>
+                    <td>{salida.id}</td>
+                    <td>{salida.query}</td>
+                    <td>{salida.tables}</td>
                   </tr>
                 ))}
               </tbody>

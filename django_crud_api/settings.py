@@ -130,6 +130,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Urls autorizadas para consultar api
 CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
     # "https://example.com",
     # "https://sub.example.com",
     # "http://localhost:8080",
