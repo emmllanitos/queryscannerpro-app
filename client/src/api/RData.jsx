@@ -4,22 +4,11 @@ export const resultRData = async () => {
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
-    return `${day < 10 ? "0" + day : day}/${
+    const dateFormated = `${day < 10 ? "0" + day : day}/${
       month < 10 ? "0" + month : month
     }/${year}`;
+    return dateFormated;
   };
-
-  const jsonError = [
-    {
-      id: 1,
-      filename: "Sin informacion",
-      result: {
-        table: [],
-      },
-      user: "Sin informacion",
-      date: "Sin informacion",
-    },
-  ];
 
   try {
     const response = await fetch(
@@ -33,10 +22,12 @@ export const resultRData = async () => {
         date: formatDate(item.date),
       };
     });
-
-    return formattedResponseData;
+    const val = true;
+    return { data: formattedResponseData, val: val };
   } catch (error) {
     console.error("Error al obtener los datos:", error);
-    return jsonError;
+    const salida = "Error del servidor";
+    const val = false;
+    return { data: salida, val: val };
   }
 };
