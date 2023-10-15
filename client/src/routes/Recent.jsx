@@ -8,19 +8,14 @@ import { resultRData } from "../api/RData";
 export const Recent = () => {
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const getData = async () => {
-      const responseData = await resultRData();
-      setData(responseData);
-    };
-
-    getData();
-  }, []);
-
-  const getData = async () => {
+  const handleData = async () => {
     const responseData = await resultRData();
     setData(responseData);
   };
+
+  useEffect(() => {
+    handleData();
+  }, []);
 
   const handleDescargar = () => {
     // Lógica para descargar el resultado
@@ -63,12 +58,11 @@ export const Recent = () => {
               </tbody>
             </Table>
           </Form>
-          
-          </div>
-          <div className="d-flex justify-content-center my-3">
-            <Button variant="primary" onClick={getData}>
-              Actualizar Consulta
-            </Button>
+        </div>
+        <div className="d-flex justify-content-center my-3">
+          <Button variant="primary" onClick={handleData}>
+            Actualizar Consulta
+          </Button>
         </div>
       </div>
     </Container>
