@@ -1,66 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
+import { resultRData } from "../api/RData";
 
 export const Recent = () => {
-  const jsonData = [
-    {
-      id: 1,
-      filename: "export_qa_super.dsx",
-      result: {
-        table: [
-          {
-            id: 1,
-            query: "SELECT * FROM users",
-            tables: "users",
-          },
-          {
-            id: 2,
-            query: "SELECT * FROM products",
-            tables: "products",
-          },
-          {
-            id: 3,
-            query: "SELECT * FROM orders",
-            tables: "orders",
-          },
-        ],
-      },
-      user: "emmllanitos",
-      date: "2023-10-10",
-    },
-    {
-      id: 2,
-      filename: "pepe.txt",
-      result: {
-        table: [
-          {
-            id: 4,
-            query: "SELECT * FROM customers",
-            tables: "customers",
-          },
-          {
-            id: 5,
-            query: "SELECT * FROM invoices",
-            tables: "invoices",
-          },
-          {
-            id: 6,
-            query: "SELECT * FROM products",
-            tables: "products",
-          },
-        ],
-      },
-      user: "elempresario",
-      date: "2023-10-10",
-    },
-  ];
+  const [data, setData] = useState([]);
 
-  // Función para descargar el resultado
+  useEffect(() => {
+    const getData = async () => {
+      const responseData = await resultRData();
+      setData(responseData);
+    };
+
+    getData();
+  }, []);
+
+  const getData = async () => {
+    const responseData = await resultRData();
+    setData(responseData);
+  };
+
   const handleDescargar = () => {
-    // Aquí puedes agregar la lógica para descargar el resultado
+    // Lógica para descargar el resultado
     alert("Descargando el resultado...");
   };
 
@@ -84,7 +47,7 @@ export const Recent = () => {
                 </tr>
               </thead>
               <tbody>
-                {jsonData.map((salida) => (
+                {data.map((salida) => (
                   <tr key={salida.id}>
                     <td>{salida.id}</td>
                     <td>{salida.filename}</td>
@@ -100,6 +63,12 @@ export const Recent = () => {
               </tbody>
             </Table>
           </Form>
+          
+          </div>
+          <div className="d-flex justify-content-center my-3">
+            <Button variant="primary" onClick={getData}>
+              Actualizar Consulta
+            </Button>
         </div>
       </div>
     </Container>
