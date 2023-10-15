@@ -69,7 +69,7 @@ export const Recent = () => {
         </div>
         <div className="d-flex justify-content-center my-3">
           <Button variant="primary" onClick={handleData}>
-            Actualizar Consulta
+            Actualizar
           </Button>
         </div>
       </div>
