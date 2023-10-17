@@ -10,6 +10,13 @@ class QueryFileView(viewsets.ModelViewSet):
     queryset = QueryFile.objects.all()
 
 
+@staticmethod
+def validar_campos(filename, content, user):
+    if not filename.strip() or not user.strip() or not content.strip():
+        return False
+    return True
+
+
 @api_view(['POST'])
 def procesar_archivo(request):
     if request.method == 'POST':
@@ -17,7 +24,7 @@ def procesar_archivo(request):
         content = request.POST.get('content', '')
         user = request.POST.get('user', '')
 
-        if not filename.strip() or not content.strip() or not user.strip():
+        if not validar_campos(filename, content, user):
             return Response({'status': 'Error: Los campos no pueden estar vacíos'}, status=400)
 
         # lógica
@@ -25,6 +32,10 @@ def procesar_archivo(request):
         print(f'Nombre del archivo: {filename}')
         print(f'Contenido del archivo: {content}')
         print(f'Usuario: {user}')
+
+        # Insertar en la base de datos
+        query_file = QueryFile(filename=filename, result=[], user=user)
+        query_file.save()
 
         return Response({'status': "success"})
 
