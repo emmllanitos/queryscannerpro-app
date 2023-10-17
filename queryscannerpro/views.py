@@ -17,7 +17,7 @@ def procesar_archivo(request):
         content = request.POST.get('content', '')
         user = request.POST.get('user', '')
 
-        if not filename or not content or not user:
+        if not filename.strip() or not content.strip() or not user.strip():
             return Response({'status': 'Error: Los campos no pueden estar vacíos'}, status=400)
 
         # lógica
