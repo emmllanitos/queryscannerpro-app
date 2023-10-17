@@ -11,9 +11,7 @@ export const resultRData = async () => {
   };
 
   try {
-    const response = await fetch(
-      "http://127.0.0.1:8080/queryfile/api/v1/QueryFileRouter/"
-    );
+    const response = await fetch("http://127.0.0.1:8080/qsp/api/db/");
     const responseData = await response.json();
 
     const formattedResponseData = responseData.map((item) => {

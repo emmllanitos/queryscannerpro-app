@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
-import { resultRData } from "../api/RData";
+import { resultRData } from "../api/RGetData";
 
 export const Recent = () => {
   const [data, setData] = useState([]);

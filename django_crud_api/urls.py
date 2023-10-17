@@ -19,5 +19,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('queryfile/', include('queryscannerpro.urls')),
+    path('qsp/', include('queryscannerpro.urls')),
 ]

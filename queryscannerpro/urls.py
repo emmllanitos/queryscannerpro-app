@@ -4,9 +4,11 @@ from rest_framework import routers
 from queryscannerpro import views
 
 router = routers.DefaultRouter()
-router.register(r'QueryFileRouter', views.QueryFileView, 'QueryFile')
+router.register(r'', views.QueryFileView, 'QueryFile')
 
 urlpatterns = [
-    path("api/v1/", include(router.urls)),
-    path('docs/', include_docs_urls(title="Query Scanner Pro API", description="Documentacion de la aplicacion Query Scanner Pro"))
+    path("api/db/", include(router.urls)),
+    path('api/file/', views.procesar_archivo),
+    path('docs/', include_docs_urls(title="Query Scanner Pro API",
+         description="Documentacion de la aplicacion Query Scanner Pro"))
 ]

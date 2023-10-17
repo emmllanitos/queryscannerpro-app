@@ -1,32 +1,80 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import QSPLogo from "../images/QSP_0.svg";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
+import { HFile } from "../api/HPostFile";
 
 export const Home = () => {
-  const [archivo, setArchivo] = useState(null);
-  const [nombre, setNombre] = useState("");
+  const [data, setData] = useState({
+    filename: "",
+    content: "",
+    user: "",
+  });
 
-  const handleArchivoChange = (event) => {
-    // Manejar el cambio del archivo aquí
-    const archivoSeleccionado = event.target.files[0];
-    setArchivo(archivoSeleccionado);
+  useEffect(() => {}, [data]);
+
+  const handleFileChange = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.readAsText(file);
+
+      reader.onload = () => {
+        const text = reader.result;
+        resolve(text);
+      };
+
+      reader.onerror = () => {
+        reject(reader.error);
+      };
+    });
   };
 
-  const handleNombreChange = (event) => {
-    // Manejar el cambio del nombre aquí
-    const nuevoNombre = event.target.value;
-    setNombre(nuevoNombre);
+  const handleArchivoChange = async (e) => {
+    const archivoSeleccionado = e.target.files[0];
+    if (!archivoSeleccionado) {
+      setData((prevData) => ({
+        ...prevData,
+        filename: "",
+        content: "",
+      }));
+
+      return;
+    }
+    const nombreArchivo = archivoSeleccionado.name;
+    try {
+      const contentFile = await handleFileChange(archivoSeleccionado);
+
+      setData((prevData) => ({
+        ...prevData,
+        filename: nombreArchivo,
+        content: contentFile,
+      }));
+    } catch (error) {
+      console.error("Error al leer el archivo:", error);
+    }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Aquí puedes enviar los datos del formulario al servidor o realizar otras acciones
-    console.log("Archivo seleccionado:", archivo);
-    console.log("Nombre:", nombre);
+  const handleUserChange = (e) => {
+    const nuevoNombre = e.target.value;
+    setData({
+      ...data,
+      user: nuevoNombre,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await HFile(data);
+      //console.log(response);
+      //falta validar respuestas del create y aplicar la logica de django para guardar en la bd
+    } catch (error) {
+      console.error("error", error);
+    }
   };
 
   const jsonData = {
@@ -63,8 +111,6 @@ export const Home = () => {
 */
   //const data = result.json();
 
-  //console.log(result);
-
   // Función para descargar el resultado
   const handleDescargar = () => {
     // Aquí puedes agregar la lógica para descargar el resultado
@@ -90,8 +136,7 @@ export const Home = () => {
               <Form.Control
                 type="text"
                 placeholder="Escribe tu Usuario"
-                value={nombre}
-                onChange={handleNombreChange}
+                onChange={handleUserChange}
               />
             </Form.Group>
             <Button variant="primary" type="submit">
