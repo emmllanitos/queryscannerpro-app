@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import { HFile } from "../api/HPostFile";
+import { resultIdData } from "../api/RGetData";
 
 export const Home = () => {
   const [data, setData] = useState({

@@ -21,22 +21,27 @@ def validar_campos(filename, content, user):
 @api_view(['POST'])
 def procesar_archivo(request):
     if request.method == 'POST':
-        filename = request.POST.get('filename', '')
-        content = request.POST.get('content', '')
-        user = request.POST.get('user', '')
 
-        if not validar_campos(filename, content, user):
-            return Response({'status': 'Error: Los campos no pueden estar vacíos'}, status=400)
+        try:
+            filename = request.POST.get('filename', '')
+            content = request.POST.get('content', '')
+            user = request.POST.get('user', '')
 
-        # lógica
-        response = extQuery(content)
+            if not validar_campos(filename, content, user):
+                return Response({'status': 'Error: Los campos no pueden estar vacíos'}, status=400)
 
-        print(response)
+            # lógica
+            response, val = extQuery(content)
 
-        # Insertar en la base de datos
-        query_file = QueryFile(filename=filename, result=[], user=user)
-        query_file.save()
+            # insertar en la base de datos
+            query_file = QueryFile(
+                filename=filename, result=response, user=user)
+            query_file.save()
 
-        return Response({'status': "success"})
+            return Response({'status': "success"})
+
+        except:
+
+            return Response({'status': "failed"})
 
     return Response({'status': 'Método no permitido'}, status=405)
