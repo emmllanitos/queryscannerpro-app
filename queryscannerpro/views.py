@@ -3,6 +3,7 @@ from .serializers import QueryScannerProSerializer
 from .models import QueryFile
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from queryscannerpro.getFindQuery import extQuery
 
 
 class QueryFileView(viewsets.ModelViewSet):
@@ -28,10 +29,9 @@ def procesar_archivo(request):
             return Response({'status': 'Error: Los campos no pueden estar vacíos'}, status=400)
 
         # lógica
+        response = extQuery(content)
 
-        print(f'Nombre del archivo: {filename}')
-        print(f'Contenido del archivo: {content}')
-        print(f'Usuario: {user}')
+        print(response)
 
         # Insertar en la base de datos
         query_file = QueryFile(filename=filename, result=[], user=user)
