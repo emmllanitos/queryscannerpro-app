@@ -27,6 +27,4 @@ def extQuery(data):
         tables = ", ".join(list(set(tables)))
         result["table"].append({"id": idx, "query": query, "tables": tables})
 
-    val = True
-
-    return result, val
+    return result

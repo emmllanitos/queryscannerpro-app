@@ -19,22 +19,26 @@ export const HFile = async (data) => {
 
       let val = null;
       let salida = null;
+      let query_id = null;
 
       if (responseData.status === "success") {
         salida = "";
         val = true;
+        query_id = responseData.query_id;
       } else {
         console.error("Algo fallo al enviar el archivo");
         salida = "Algo fallo al enviar el archivo";
         val = false;
+        query_id = 0;
       }
 
-      return { salida: salida, val: val };
+      return { salida: salida, val: val, query_id: query_id };
     } catch (error) {
       console.error("Error del servidor:", error);
-      const salida = "Error del servidor";
-      const val = false;
-      return { salida: salida, val: val };
+      salida = "Error del servidor";
+      val = false;
+      query_id = 0;
+      return { salida: salida, val: val, query_id: query_id };
     }
   } else {
     console.error("El archivo procesado está vacío o incompleto.");

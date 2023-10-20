@@ -61,58 +61,69 @@ export const Home = () => {
 
   const handleUserChange = (e) => {
     const nuevoNombre = e.target.value;
-    setData({
-      ...data,
+    setData((prevData) => ({
+      ...prevData,
       user: nuevoNombre,
-    });
+    }));
   };
+
+  const [salida, setSalida] = useState("Nada");
+  useEffect(() => {}, [salida]);
+  const [val, setVal] = useState(false);
+  useEffect(() => {}, [val]);
+  const [jsonDataTable, setJsonDataTable] = useState({
+    id: "",
+    filename: "",
+    result: {
+      table: [
+        {
+          id: "Sin datos",
+          query: "Sin datos",
+          tables: "Sin datos",
+        },
+      ],
+    },
+    user: "",
+    date: "",
+  });
+  const [valJDT, setValJDT] = useState(false);
+
+  const handleDataTable = async (id) => {
+    const resultTable = await resultIdData(id);
+    setJsonDataTable(resultTable.data);
+    setValJDT(resultTable.val);
+  };
+
+  useState;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!data.filename || !data.user) {
+      alert("Debe llenar los campos antes de enviarlos");
+      return;
+    }
+
     try {
-      const response = await HFile(data);
-      //console.log(response);
-      //falta validar respuestas del create y aplicar la logica de django para guardar en la bd
+      const result = await HFile(data);
+      setSalida(result.salida);
+      setVal(result.val);
+
+      handleDataTable(result.query_id);
+
+      setData({
+        filename: "",
+        content: "",
+        user: "",
+      });
+
+      e.target.reset();
     } catch (error) {
       console.error("error", error);
     }
   };
 
-  const jsonData = {
-    id: 1,
-    filename: "export_qa_super.dsx",
-    result: {
-      table: [
-        {
-          id: 1,
-          query: "SELECT * FROM users",
-          tables: "users",
-        },
-        {
-          id: 2,
-          query: "SELECT * FROM products",
-          tables: "products",
-        },
-        {
-          id: 3,
-          query: "SELECT * FROM orders",
-          tables: "orders",
-        },
-      ],
-    },
-    user: "emmllanitos",
-    date: "2023-10-10T18:42:57.261461-05:00",
-  };
+  const tablesData = jsonDataTable.result.table;
 
-  const tablesData = jsonData.result.table;
-
-  /*const result = fetch('http://127.0.0.1:8080/queryfile/api/v1/QueryFileRouter/1/', {
-    method: "GET",
-  });
-*/
-  //const data = result.json();
-
-  // Función para descargar el resultado
   const handleDescargar = () => {
     // Aquí puedes agregar la lógica para descargar el resultado
     alert("Descargando el resultado...");
@@ -145,59 +156,45 @@ export const Home = () => {
             </Button>
           </Form>
         </div>
-        <div
-          className="d-flex justify-content-center align-items-center "
-          style={{ marginTop: 100 }}
-        >
-          <Form>
-            <p>
-              Luego de procesar su archivo contiene {tablesData.length}{" "}
-              consultas y estas son las tablas que usa:
-            </p>
-            {/*
-            <Table striped bordered>
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Consulta</th>
-                  <th>Tablas utilizadas</th>
-                </tr>
-              </thead>
-              <tbody>
-                {consultas.map((consulta) => (
-                  <tr key={consulta.id}>
-                    <td>{consulta.id}</td>
-                    <td>{consulta.consulta}</td>
-                    <td>{consulta.tablas}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-            */}
-            <Table striped bordered>
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Consulta</th>
-                  <th>Tablas utilizadas</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tablesData.map((salida) => (
-                  <tr key={salida.id}>
-                    <td>{salida.id}</td>
-                    <td>{salida.query}</td>
-                    <td>{salida.tables}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-            <p>¿Desea descargar el resultado?</p>
-            <Button variant="primary" onClick={handleDescargar}>
-              Pulse aquí para descargar
-            </Button>
-          </Form>
-        </div>
+
+        {valJDT && valJDT === true ? (
+          <div>
+            <h3 style={{ marginTop: 80 }}>Respuesta</h3>
+            <div
+              className="d-flex justify-content-center align-items-center "
+              style={{ marginTop: 20 }}
+            >
+              <Form>
+                <p>
+                  Luego de procesar su archivo contiene {tablesData.length}{" "}
+                  consultas y estas son las tablas que usa:
+                </p>
+                <Table striped bordered>
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Consulta</th>
+                      <th>Tablas utilizadas</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tablesData.map((salida) => (
+                      <tr key={salida.id}>
+                        <td>{salida.id}</td>
+                        <td>{salida.query}</td>
+                        <td>{salida.tables}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+                <p>¿Desea descargar el resultado?</p>
+                <Button variant="primary" onClick={handleDescargar}>
+                  Pulse aquí para descargar
+                </Button>
+              </Form>
+            </div>
+          </div>
+        ) : null}
       </div>
     </Container>
   );

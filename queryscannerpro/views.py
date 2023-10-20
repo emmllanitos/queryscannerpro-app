@@ -31,17 +31,21 @@ def procesar_archivo(request):
                 return Response({'status': 'Error: Los campos no pueden estar vacíos'}, status=400)
 
             # lógica
-            response, val = extQuery(content)
+            response = extQuery(content)
 
             # insertar en la base de datos
             query_file = QueryFile(
                 filename=filename, result=response, user=user)
             query_file.save()
 
-            return Response({'status': "success"})
+            # obtener el id del objeto recién insertado
+            query_id = query_file.id
+            print(query_id)
 
-        except:
+            return Response({'status': "success", 'query_id': query_id})
 
-            return Response({'status': "failed"})
+        except Exception as e:
+
+            return Response({'status': "failed", 'error': str(e)})
 
     return Response({'status': 'Método no permitido'}, status=405)
