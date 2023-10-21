@@ -22,6 +22,8 @@ export const Recent = () => {
   const handleDescargar = () => {
     // Lógica para descargar el resultado
     alert("Descargando el resultado...");
+
+    //aqui va debo preguntar si quiero renderizar antes de y luego si descargar.
   };
 
   return (

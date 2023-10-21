@@ -7,6 +7,8 @@ import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import { HFile } from "../api/HPostFile";
 import { resultIdData } from "../api/RGetData";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFDocument } from "../pdf/PdfFile";
 
 export const Home = () => {
   const [data, setData] = useState({
@@ -124,11 +126,6 @@ export const Home = () => {
 
   const tablesData = jsonDataTable.result.table;
 
-  const handleDescargar = () => {
-    // Aquí puedes agregar la lógica para descargar el resultado
-    alert("Descargando el resultado...");
-  };
-
   return (
     <Container>
       <div className="text-center my-5">
@@ -188,9 +185,20 @@ export const Home = () => {
                   </tbody>
                 </Table>
                 <p>¿Desea descargar el resultado?</p>
-                <Button variant="primary" onClick={handleDescargar}>
-                  Pulse aquí para descargar
-                </Button>
+                <PDFDownloadLink
+                  document={<PDFDocument data={jsonDataTable} />}
+                  filename="FORM"
+                >
+                  {({ loading }) =>
+                    loading ? (
+                      <Button variant="primary">Cargando documento...</Button>
+                    ) : (
+                      <Button variant="primary">
+                        Pulse aquí para descargar
+                      </Button>
+                    )
+                  }
+                </PDFDownloadLink>
               </Form>
             </div>
           </div>
