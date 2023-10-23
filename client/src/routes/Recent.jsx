@@ -4,6 +4,8 @@ import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
 import { resultRData } from "../api/RGetData";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFDocument } from "../pdf/PdfFile";
 
 export const Recent = () => {
   const [data, setData] = useState([]);
@@ -18,13 +20,6 @@ export const Recent = () => {
   useEffect(() => {
     handleData();
   }, []);
-
-  const handleDescargar = () => {
-    // Lógica para descargar el resultado
-    alert("Descargando el resultado...");
-
-    //aqui va debo preguntar si quiero renderizar antes de y luego si descargar.
-  };
 
   return (
     <Container>
@@ -54,9 +49,18 @@ export const Recent = () => {
                       <td>{salida.user}</td>
                       <td>{salida.date}</td>
                       <td>
-                        <Button variant="secondary" onClick={handleDescargar}>
-                          Descargar
-                        </Button>
+                        <PDFDownloadLink
+                          document={<PDFDocument data={salida} />}
+                          filename="FORM"
+                        >
+                          {({ loading }) =>
+                            loading ? (
+                              <Button variant="primary">Renderizando...</Button>
+                            ) : (
+                              <Button variant="primary">Descargar</Button>
+                            )
+                          }
+                        </PDFDownloadLink>
                       </td>
                     </tr>
                   ))}
@@ -70,7 +74,7 @@ export const Recent = () => {
           </Form>
         </div>
         <div className="d-flex justify-content-center my-3">
-          <Button variant="primary" onClick={handleData}>
+          <Button variant="primary" onClick={() => handleData()}>
             Actualizar
           </Button>
         </div>
