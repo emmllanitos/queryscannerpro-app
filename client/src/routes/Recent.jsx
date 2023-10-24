@@ -31,7 +31,7 @@ export const Recent = () => {
         >
           <Form>
             {data && data.length > 0 && val === true ? (
-              <Table striped bordered>
+              <Table striped bordered hover variant="dark" size="sm">
                 <thead>
                   <tr>
                     <th>Id</th>

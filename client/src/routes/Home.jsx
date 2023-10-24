@@ -166,7 +166,7 @@ export const Home = () => {
                   Luego de procesar su archivo contiene {tablesData.length}{" "}
                   consultas y estas son las tablas que usa:
                 </p>
-                <Table striped bordered>
+                <Table striped bordered variant="dark">
                   <thead>
                     <tr>
                       <th>Id</th>

@@ -36,6 +36,16 @@ export function Footer() {
                   Documentos recientes
                 </a>
               </li>
+              <li>
+                <a href="#" style={{ color: "#fff", textDecoration: "none" }}>
+                  Facebook
+                </a>
+              </li>
+              <li>
+                <a href="#" style={{ color: "#fff", textDecoration: "none" }}>
+                  Instagram
+                </a>
+              </li>
             </ul>
           </Col>
           <Col md={3}>
