@@ -11,9 +11,27 @@ export const Recent = () => {
   const [data, setData] = useState([]);
   const [val, setVal] = useState(true);
 
+  function removeExtension(filename) {
+    const lastDotIndex = filename.lastIndexOf(".");
+    if (lastDotIndex === -1) {
+      return filename;
+    }
+    return filename.substring(0, lastDotIndex);
+  }
+
   const handleData = async () => {
     const result = await resultRData();
-    setData(result.data);
+
+    const data = result.data;
+
+    const formattedExtension = data.map((item) => {
+      return {
+        ...item,
+        filename2: "QSP " + removeExtension(item.filename),
+      };
+    });
+
+    setData(formattedExtension);
     setVal(result.val);
   };
 
@@ -51,7 +69,7 @@ export const Recent = () => {
                       <td>
                         <PDFDownloadLink
                           document={<PDFDocument data={salida} />}
-                          filename="FORM"
+                          fileName={salida.filename2}
                         >
                           {({ loading }) =>
                             loading ? (

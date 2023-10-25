@@ -9,7 +9,7 @@ export const PDFDocument = ({ data }) => {
   });
 
   return (
-    <Document>
+    <Document title="Resultado QSP" author="QSP" pdfVersion="1.0">
       <Page size="A4" style={styles.body}>
         <Text style={styles.header} fixed>
           ~ Creado por Query Scanner Pro ~

@@ -7,7 +7,7 @@ import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import { HFile } from "../api/HPostFile";
 import { resultIdData } from "../api/RGetData";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFDownloadLink, usePDF } from "@react-pdf/renderer";
 import { PDFDocument } from "../pdf/PdfFile";
 
 export const Home = () => {
@@ -126,6 +126,17 @@ export const Home = () => {
 
   const tablesData = jsonDataTable.result.table;
 
+  function removeExtension(filename) {
+    const lastDotIndex = filename.lastIndexOf(".");
+    if (lastDotIndex === -1) {
+      return filename;
+    }
+    return filename.substring(0, lastDotIndex);
+  }
+
+  const filenameWithoutExtension =
+    "QSP " + removeExtension(jsonDataTable.filename);
+
   return (
     <Container>
       <div className="text-center my-5">
@@ -187,7 +198,7 @@ export const Home = () => {
                 <p>¿Desea descargar el resultado?</p>
                 <PDFDownloadLink
                   document={<PDFDocument data={jsonDataTable} />}
-                  filename="FORM"
+                  fileName={filenameWithoutExtension}
                 >
                   {({ loading }) =>
                     loading ? (
