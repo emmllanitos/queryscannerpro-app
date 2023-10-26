@@ -5,6 +5,11 @@ import Col from "react-bootstrap/Col";
 
 export function Footer() {
   const year = new Date().getFullYear();
+
+  const preventDefaultAction = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <footer
       style={{
@@ -37,12 +42,20 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" style={{ color: "#fff", textDecoration: "none" }}>
+                <a
+                  href="#"
+                  style={{ color: "#fff", textDecoration: "none" }}
+                  onClick={preventDefaultAction}
+                >
                   Facebook
                 </a>
               </li>
               <li>
-                <a href="#" style={{ color: "#fff", textDecoration: "none" }}>
+                <a
+                  href="#"
+                  style={{ color: "#fff", textDecoration: "none" }}
+                  onClick={preventDefaultAction}
+                >
                   Instagram
                 </a>
               </li>

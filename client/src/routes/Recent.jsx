@@ -10,6 +10,7 @@ import { PDFDocument } from "../pdf/PdfFile";
 export const Recent = () => {
   const [data, setData] = useState([]);
   const [val, setVal] = useState(true);
+  const [selectedRow, setSelectedRow] = useState(null);
 
   function removeExtension(filename) {
     const lastDotIndex = filename.lastIndexOf(".");
@@ -39,6 +40,11 @@ export const Recent = () => {
     handleData();
   }, []);
 
+  const handleDataAndResetRow = () => {
+    handleData();
+    setSelectedRow(null);
+  };
+
   return (
     <Container>
       <div className="text-center my-5">
@@ -60,25 +66,36 @@ export const Recent = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((salida) => (
+                  {data.map((salida, index) => (
                     <tr key={salida.id}>
                       <td>{salida.id}</td>
                       <td>{salida.filename}</td>
                       <td>{salida.user}</td>
                       <td>{salida.date}</td>
                       <td>
-                        <PDFDownloadLink
-                          document={<PDFDocument data={salida} />}
-                          fileName={salida.filename2}
-                        >
-                          {({ loading }) =>
-                            loading ? (
-                              <Button variant="primary">Renderizando...</Button>
-                            ) : (
-                              <Button variant="primary">Descargar</Button>
-                            )
-                          }
-                        </PDFDownloadLink>
+                        {selectedRow === index ? (
+                          <PDFDownloadLink
+                            document={<PDFDocument data={salida} />}
+                            fileName={salida.filename2}
+                          >
+                            {({ loading }) =>
+                              loading ? (
+                                <Button variant="primary">
+                                  Renderizando...
+                                </Button>
+                              ) : (
+                                <Button variant="primary">Descargar</Button>
+                              )
+                            }
+                          </PDFDownloadLink>
+                        ) : (
+                          <Button
+                            variant="secondary"
+                            onClick={() => setSelectedRow(index)}
+                          >
+                            Mostrar PDF
+                          </Button>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -92,7 +109,7 @@ export const Recent = () => {
           </Form>
         </div>
         <div className="d-flex justify-content-center my-3">
-          <Button variant="primary" onClick={() => handleData()}>
+          <Button variant="primary" onClick={() => handleDataAndResetRow()}>
             Actualizar
           </Button>
         </div>
