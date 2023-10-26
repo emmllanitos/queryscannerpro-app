@@ -17,8 +17,6 @@ export const Home = () => {
     user: "",
   });
 
-  useEffect(() => {}, [data]);
-
   const handleFileChange = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -69,10 +67,8 @@ export const Home = () => {
     }));
   };
 
-  const [salida, setSalida] = useState("Nada");
-  useEffect(() => {}, [salida]);
+  const [salida, setSalida] = useState(null);
   const [val, setVal] = useState(false);
-  useEffect(() => {}, [val]);
   const [jsonDataTable, setJsonDataTable] = useState({
     id: "",
     filename: "",
@@ -96,8 +92,6 @@ export const Home = () => {
     setValJDT(resultTable.val);
   };
 
-  useState;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!data.filename || !data.user) {
@@ -110,15 +104,18 @@ export const Home = () => {
       setSalida(result.salida);
       setVal(result.val);
 
-      handleDataTable(result.query_id);
+      if (result.salida === null && result.val) {
+        await handleDataTable(result.query_id);
+        setData({
+          filename: "",
+          content: "",
+          user: "",
+        });
 
-      setData({
-        filename: "",
-        content: "",
-        user: "",
-      });
-
-      e.target.reset();
+        e.target.reset();
+      } else {
+        setValJDT(true);
+      }
     } catch (error) {
       console.error("error", error);
     }
@@ -165,54 +162,60 @@ export const Home = () => {
           </Form>
         </div>
 
-        {valJDT && valJDT === true ? (
-          <div>
-            <h3 style={{ marginTop: 80 }}>Respuesta</h3>
-            <div
-              className="d-flex justify-content-center align-items-center "
-              style={{ marginTop: 20 }}
-            >
-              <Form>
-                <p>
-                  Luego de procesar su archivo contiene {tablesData.length}{" "}
-                  consultas y estas son las tablas que usa:
-                </p>
-                <Table striped bordered variant="dark">
-                  <thead>
-                    <tr>
-                      <th>Id</th>
-                      <th>Consulta</th>
-                      <th>Tablas utilizadas</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {tablesData.map((salida) => (
-                      <tr key={salida.id}>
-                        <td>{salida.id}</td>
-                        <td>{salida.query}</td>
-                        <td>{salida.tables}</td>
+        {valJDT ? (
+          val && salida === null ? (
+            <div>
+              <h3 style={{ marginTop: 80 }}>Respuesta</h3>
+              <div
+                className="d-flex justify-content-center align-items-center "
+                style={{ marginTop: 20 }}
+              >
+                <Form>
+                  <p>
+                    Luego de procesar su archivo contiene {tablesData.length}{" "}
+                    consultas y estas son las tablas que usa:
+                  </p>
+                  <Table striped bordered variant="dark">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Consulta</th>
+                        <th>Tablas utilizadas</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </Table>
-                <p>¿Desea descargar el resultado?</p>
-                <PDFDownloadLink
-                  document={<PDFDocument data={jsonDataTable} />}
-                  fileName={filenameWithoutExtension}
-                >
-                  {({ loading }) =>
-                    loading ? (
-                      <Button variant="primary">Cargando documento...</Button>
-                    ) : (
-                      <Button variant="primary">
-                        Pulse aquí para descargar
-                      </Button>
-                    )
-                  }
-                </PDFDownloadLink>
-              </Form>
+                    </thead>
+                    <tbody>
+                      {tablesData.map((salida) => (
+                        <tr key={salida.id}>
+                          <td>{salida.id}</td>
+                          <td>{salida.query}</td>
+                          <td>{salida.tables}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                  <p>¿Desea descargar el resultado?</p>
+                  <PDFDownloadLink
+                    document={<PDFDocument data={jsonDataTable} />}
+                    fileName={filenameWithoutExtension}
+                  >
+                    {({ loading }) =>
+                      loading ? (
+                        <Button variant="primary">Cargando documento...</Button>
+                      ) : (
+                        <Button variant="primary">
+                          Pulse aquí para descargar
+                        </Button>
+                      )
+                    }
+                  </PDFDownloadLink>
+                </Form>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div style={{ paddingTop: "30px" }}>
+              <p>{salida}</p>
+            </div>
+          )
         ) : null}
       </div>
     </Container>
