@@ -23,17 +23,21 @@ export const Recent = () => {
   const handleData = async () => {
     const result = await resultRData();
 
-    const data = result.data;
+    if (result.val === true) {
+      const data = result.data;
+      const formattedExtension = data.map((item) => {
+        return {
+          ...item,
+          filename2: "QSP " + removeExtension(item.filename),
+        };
+      });
 
-    const formattedExtension = data.map((item) => {
-      return {
-        ...item,
-        filename2: "QSP " + removeExtension(item.filename),
-      };
-    });
-
-    setData(formattedExtension);
-    setVal(result.val);
+      setData(formattedExtension);
+      setVal(result.val);
+    } else {
+      setData(result.data);
+      setVal(result.val);
+    }
   };
 
   useEffect(() => {

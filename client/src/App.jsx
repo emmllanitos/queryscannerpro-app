@@ -5,7 +5,6 @@ import { Recent } from "./routes/Recent";
 import { Footer } from "./components/Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./stylesheets/main.css";
-import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -20,7 +19,6 @@ function App() {
             <Route path="/recent_document/" element={<Recent />} />
             <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
-          <Toaster />
         </div>
         <Footer />
       </div>
