@@ -40,7 +40,6 @@ def procesar_archivo(request):
 
             # obtener el id del objeto recién insertado
             query_id = query_file.id
-            print(query_id)
 
             return Response({'status': "success", 'query_id': query_id})
 
